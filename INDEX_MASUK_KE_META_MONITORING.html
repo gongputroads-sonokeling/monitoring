@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meta Monitoring - Portal Masuk</title>
+
+  <style>
+    :root{
+      --ink:#0e1530;
+      --ink2:#18214a;
+      --line:rgba(255,255,255,.2);
+      --txt:#f4f6ff;
+      --mute:rgba(244,246,255,.74);
+      --blue:#3d7bff;
+      --cyan:#35d6e8;
+      --amber:#ffc857;
+    }
+    
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    
+    body{
+      font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+      color:var(--txt);
+      background:radial-gradient(120% 90% at 20% 0%,var(--ink2),var(--ink) 60%);
+      min-height:100vh;
+      overflow-x:hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* --- Efek Orb Latar Belakang --- */
+    .orb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none;transition:transform .4s ease-out}
+    .o1{width:380px;height:380px;background:var(--blue);top:-120px;left:-100px;transform:translate(calc(var(--px,0)*50px),calc(var(--py,0)*50px))}
+    .o2{width:320px;height:320px;background:#8a5cff;bottom:-100px;right:-60px;transform:translate(calc(var(--px,0)*-70px),calc(var(--py,0)*-70px))}
+    .o3{width:200px;height:200px;background:var(--cyan);top:45%;left:48%;opacity:.3;transform:translate(calc(var(--px,0)*30px),calc(var(--py,0)*-40px))}
+
+    /* --- Container Utama --- */
+    .wrap{
+      position:relative;
+      width:100%;
+      max-width:480px;
+      padding:20px;
+      z-index: 10;
+    }
+
+    /* --- Efek 3D Deck --- */
+    .stage{perspective:1100px;padding:18px}
+    .deck{
+      position:relative;
+      transform-style:preserve-3d;
+      transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+      transition:transform .18s ease-out;
+    }
+    .deck::before,.deck::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+    }
+    .deck::before{transform:translate3d(14px,16px,-40px)}
+    .deck::after{transform:translate3d(28px,32px,-80px);opacity:.6}
+
+    /* --- Kartu Utama (Glassmorphism) --- */
+    .card{
+      position:relative;
+      transform-style:preserve-3d;
+      border-radius:24px;
+      border:1px solid var(--line);
+      padding:36px 28px;
+      background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05)),var(--ink2);
+      box-shadow:0 30px 60px rgba(0,0,0,.4);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:24px;
+      pointer-events:none;
+      background:radial-gradient(260px circle at var(--mx,30%) var(--my,10%),rgba(255,255,255,.18),transparent 60%);
+    }
+
+    /* --- Kotak Informasi di Dalam Kartu --- */
+    .info-box{
+      position: relative;
+      z-index: 2;
+      transform: translateZ(20px);
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.2);
+      border-radius: 16px;
+      padding: 30px 24px;
+      text-align: center;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* --- Wadah Logo Integrasi --- */
+    .logo-integration {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto 24px;
+      transform: translateZ(30px);
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
+    }
+
+    .logo-integration svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .info-box h2{
+      margin: 0 0 12px;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #fff, var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .info-box p{
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--mute);
+    }
+
+    /* --- Tombol ENTER --- */
+    .btn-enter{
+      position: relative;
+      z-index: 2;
+      display: block;
+      width: 100%;
+      padding: 18px;
+      border: 0;
+      border-radius: 14px;
+      font: inherit;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #06122e;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      background: linear-gradient(180deg, var(--cyan), var(--blue));
+      box-shadow: 0 7px 0 #1c4fc2, 0 16px 28px rgba(61,123,255,.4);
+      transform: translateZ(40px);
+      transition: transform .08s, box-shadow .08s, filter .2s;
+    }
+
+    .btn-enter:hover{
+      filter: brightness(1.1);
+    }
+
+    .btn-enter:active{
+      transform: translateZ(40px) translateY(5px);
+      box-shadow: 0 2px 0 #1c4fc2, 0 6px 12px rgba(61,123,255,.4);
+    }
+
+    .btn-enter:focus-visible{
+      outline: 3px solid var(--amber);
+      outline-offset: 3px;
+    }
+
+    /* --- Responsif --- */
+    @media (max-width: 480px) {
+      .card { padding: 24px 20px; gap: 20px; }
+      .info-box { padding: 20px 15px; min-height: 180px; }
+      .info-box h2 { font-size: 22px; }
+      .info-box p { font-size: 14px; }
+      .btn-enter { font-size: 18px; padding: 16px; }
+      .logo-integration { max-width: 260px; }
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *{animation:none!important;transition:none!important}
+      .deck{transform:none!important}
+    }
+  </style>
+</head>
+<body>
+<span class="orb o1"></span>
+<span class="orb o2"></span>
+<span class="orb o3"></span>
+
+<main class="wrap">
+  <section class="stage" id="stage">
+    <div class="deck" id="deck">
+      <div class="card">
+        
+        <!-- Kotak Informasi -->
+        <div class="info-box">
+          
+          <!-- LOGO INTEGRASI META & ZOHO CRM -->
+          <div class="logo-integration">
+            <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- Gradasi untuk panah sinkronisasi -->
+                <linearGradient id="arrowGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="100%" stop-color="#a0c4ff" />
+                </linearGradient>
+                <linearGradient id="arrowGrad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stop-color="#3d7bff" />
+                  <stop offset="100%" stop-color="#ffffff" />
+                </linearGradient>
+                
+                <!-- Gradasi untuk Meta -->
+                <linearGradient id="metaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0064E0" />
+                  <stop offset="100%" stop-color="#00C6FF" />
+                </linearGradient>
+
+                <!-- Warna untuk Zoho 3D -->
+                <linearGradient id="zohoTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff6b6b" />
+                  <stop offset="100%" stop-color="#ee5253" />
+                </linearGradient>
+                <linearGradient id="zohoFront" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff4757" />
+                  <stop offset="100%" stop-color="#c0392b" />
+                </linearGradient>
+                <linearGradient id="zohoSide" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#c0392b" />
+                  <stop offset="100%" stop-color="#8e1e1e" />
+                </linearGradient>
+              </defs>
+
+              <!-- Kapsul Latar Belakang (Dark Pill) -->
+              <rect x="10" y="30" width="380" height="100" rx="50" fill="#1a2238" stroke="#2a3655" stroke-width="2"/>
+
+              <!-- ZOHO CRM (Kiri) - DENGAN LOGO KOTAK 3D BARU -->
+              <g transform="translate(25, 42)">
+                <!-- Ikon Zoho Kotak 3D -->
+                <g transform="scale(1.1)">
+                  <!-- Sisi Kanan -->
+                  <path d="M 20 10 L 35 15 L 35 55 L 20 65 Z" fill="url(#zohoSide)" />
+                  <!-- Sisi Atas -->
+                  <path d="M 5 15 L 20 10 L 35 15 L 20 20 Z" fill="url(#zohoTop)" />
+                  <!-- Sisi Depan -->
+                  <path d="M 5 15 L 20 20 L 20 65 L 5 55 Z" fill="url(#zohoFront)" />
+                  
+                  <!-- Huruf Z Putih Melengkung -->
+                  <path d="M 10 24 L 16 24 C 17 24, 18 25, 17 27 L 9 41 C 8 43, 9 44, 11 44 L 17 44" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+
+                <!-- Teks Zoho CRM -->
+                <text x="45" y="25" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#ffffff" letter-spacing="0.5">Zoho</text>
+                <text x="45" y="41" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#ffffff" letter-spacing="0.5">CRM</text>
+              </g>
+
+              <!-- META (Kanan) -->
+              <g transform="translate(310, 55)">
+                <!-- Ikon Infinity Meta -->
+                <path d="M15 15 C 5 5, -10 5, -10 15 C -10 25, 5 25, 15 15 C 25 5, 40 5, 40 15 C 40 25, 25 25, 15 15 Z" fill="none" stroke="url(#metaGrad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                
+                <!-- Teks Meta -->
+                <text x="15" y="45" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">Meta</text>
+              </g>
+
+              <!-- Panah Sinkronisasi (Tengah) -->
+              <!-- Panah Atas -->
+              <path d="M 120 80 C 120 40, 200 40, 240 80" fill="none" stroke="url(#arrowGrad1)" stroke-width="12" stroke-linecap="round"/>
+              <path d="M 230 70 L 250 80 L 230 90 Z" fill="#ffffff" />
+
+              <!-- Panah Bawah -->
+              <path d="M 280 80 C 280 120, 200 120, 160 80" fill="none" stroke="url(#arrowGrad2)" stroke-width="12" stroke-linecap="round"/>
+              <path d="M 170 90 L 150 80 L 170 70 Z" fill="#3d7bff" />
+
+              <!-- Ikon Infinity Tengah -->
+              <path d="M 180 80 C 170 70, 160 70, 160 80 C 160 90, 170 90, 180 80 C 190 70, 200 70, 200 80 C 200 90, 190 90, 180 80 Z" fill="#ffffff" opacity="0.9"/>
+            </svg>
+          </div>
+          <!-- AKHIR LOGO -->
+
+          <h2>Informasi</h2>
+          <p>Selamat datang di <strong>Meta Monitoring</strong>. Pantau aktivitas Lead, Event konversi, serta kualitas integrasi Meta dan CRM Anda di satu tempat.</p>
+        </div>
+
+        <!-- Tombol Enter -->
+        <a href="https://script.google.com/macros/s/AKfycbzdsdp2MnUFLWhBQIE9gb1-BJtzRTS5jcvt7TLTCVtWG1mR1ancbXw1mlAnSTVcStT4uw/exec" class="btn-enter">ENTER</a>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var stage=document.getElementById('stage');
+  var deck=document.getElementById('deck');
+  var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(!calm){
+    stage.addEventListener('pointermove',function(e){
+      var r=stage.getBoundingClientRect(),
+          x=(e.clientX-r.left)/r.width,
+          y=(e.clientY-r.top)/r.height;
+      
+      deck.style.setProperty('--ry',((x-.5)*14).toFixed(1)+'deg');
+      deck.style.setProperty('--rx',((.5-y)*14).toFixed(1)+'deg');
+      deck.style.setProperty('--mx',(x*100).toFixed(0)+'%');
+      deck.style.setProperty('--my',(y*100).toFixed(0)+'%');
+    });
+
+    stage.addEventListener('pointerleave',function(){
+      deck.style.setProperty('--rx','0deg');
+      deck.style.setProperty('--ry','0deg');
+    });
+
+    document.addEventListener('pointermove',function(e){
+      root.style.setProperty('--px',(e.clientX/innerWidth-.5).toFixed(3));
+      root.style.setProperty('--py',(e.clientY/innerHeight-.5).toFixed(3));
+    });
+  }
+})();
+</script>
+</body>
+</html>
