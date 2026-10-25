@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Meta Monitoring - Portal Masuk</title>
+  <title>Meta Monitoring - Entry Portal</title>
 
   <style>
     :root{
@@ -31,13 +31,13 @@
       align-items: center;
     }
 
-    /* --- Efek Orb Latar Belakang --- */
+    /* --- Background Orb Effects --- */
     .orb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none;transition:transform .4s ease-out}
     .o1{width:380px;height:380px;background:var(--blue);top:-120px;left:-100px;transform:translate(calc(var(--px,0)*50px),calc(var(--py,0)*50px))}
     .o2{width:320px;height:320px;background:#8a5cff;bottom:-100px;right:-60px;transform:translate(calc(var(--px,0)*-70px),calc(var(--py,0)*-70px))}
     .o3{width:200px;height:200px;background:var(--cyan);top:45%;left:48%;opacity:.3;transform:translate(calc(var(--px,0)*30px),calc(var(--py,0)*-40px))}
 
-    /* --- Container Utama --- */
+    /* --- Main Container --- */
     .wrap{
       position:relative;
       width:100%;
@@ -46,7 +46,7 @@
       z-index: 10;
     }
 
-    /* --- Efek 3D Deck --- */
+    /* --- 3D Deck Effect --- */
     .stage{perspective:1100px;padding:18px}
     .deck{
       position:relative;
@@ -65,7 +65,7 @@
     .deck::before{transform:translate3d(14px,16px,-40px)}
     .deck::after{transform:translate3d(28px,32px,-80px);opacity:.6}
 
-    /* --- Kartu Utama (Glassmorphism) --- */
+    /* --- Main Card (Glassmorphism) --- */
     .card{
       position:relative;
       transform-style:preserve-3d;
@@ -87,7 +87,7 @@
       background:radial-gradient(260px circle at var(--mx,30%) var(--my,10%),rgba(255,255,255,.18),transparent 60%);
     }
 
-    /* --- Kotak Informasi di Dalam Kartu --- */
+    /* --- Info Box Inside Card --- */
     .info-box{
       position: relative;
       z-index: 2;
@@ -104,7 +104,7 @@
       align-items: center;
     }
 
-    /* --- Wadah Logo Integrasi --- */
+    /* --- Integration Logo Container --- */
     .logo-integration {
       width: 100%;
       max-width: 320px;
@@ -136,7 +136,7 @@
       color: var(--mute);
     }
 
-    /* --- Tombol ENTER --- */
+    /* --- ENTER Button --- */
     .btn-enter{
       position: relative;
       z-index: 2;
@@ -173,7 +173,7 @@
       outline-offset: 3px;
     }
 
-    /* --- Responsif --- */
+    /* --- Responsive --- */
     @media (max-width: 480px) {
       .card { padding: 24px 20px; gap: 20px; }
       .info-box { padding: 20px 15px; min-height: 180px; }
@@ -199,14 +199,14 @@
     <div class="deck" id="deck">
       <div class="card">
         
-        <!-- Kotak Informasi -->
+        <!-- Info Box -->
         <div class="info-box">
           
-          <!-- LOGO INTEGRASI META & ZOHO CRM -->
+          <!-- META & ZOHO CRM INTEGRATION LOGO -->
           <div class="logo-integration">
             <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <!-- Gradasi untuk panah sinkronisasi -->
+                <!-- Sync Arrows Gradients -->
                 <linearGradient id="arrowGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stop-color="#ffffff" />
                   <stop offset="100%" stop-color="#a0c4ff" />
@@ -216,13 +216,13 @@
                   <stop offset="100%" stop-color="#ffffff" />
                 </linearGradient>
                 
-                <!-- Gradasi untuk Meta -->
+                <!-- Meta Gradient -->
                 <linearGradient id="metaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stop-color="#0064E0" />
                   <stop offset="100%" stop-color="#00C6FF" />
                 </linearGradient>
 
-                <!-- Warna untuk Zoho 3D -->
+                <!-- Zoho 3D Colors -->
                 <linearGradient id="zohoTop" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stop-color="#ff6b6b" />
                   <stop offset="100%" stop-color="#ee5253" />
@@ -237,58 +237,45 @@
                 </linearGradient>
               </defs>
 
-              <!-- Kapsul Latar Belakang (Dark Pill) -->
+              <!-- Dark Pill Background -->
               <rect x="10" y="30" width="380" height="100" rx="50" fill="#1a2238" stroke="#2a3655" stroke-width="2"/>
 
-              <!-- ZOHO CRM (Kiri) - DENGAN LOGO KOTAK 3D BARU -->
+              <!-- ZOHO CRM (Left) -->
               <g transform="translate(25, 42)">
-                <!-- Ikon Zoho Kotak 3D -->
                 <g transform="scale(1.1)">
-                  <!-- Sisi Kanan -->
                   <path d="M 20 10 L 35 15 L 35 55 L 20 65 Z" fill="url(#zohoSide)" />
-                  <!-- Sisi Atas -->
                   <path d="M 5 15 L 20 10 L 35 15 L 20 20 Z" fill="url(#zohoTop)" />
-                  <!-- Sisi Depan -->
                   <path d="M 5 15 L 20 20 L 20 65 L 5 55 Z" fill="url(#zohoFront)" />
-                  
-                  <!-- Huruf Z Putih Melengkung -->
                   <path d="M 10 24 L 16 24 C 17 24, 18 25, 17 27 L 9 41 C 8 43, 9 44, 11 44 L 17 44" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                 </g>
 
-                <!-- Teks Zoho CRM -->
                 <text x="45" y="25" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#ffffff" letter-spacing="0.5">Zoho</text>
                 <text x="45" y="41" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#ffffff" letter-spacing="0.5">CRM</text>
               </g>
 
-              <!-- META (Kanan) -->
+              <!-- META (Right) -->
               <g transform="translate(310, 55)">
-                <!-- Ikon Infinity Meta -->
                 <path d="M15 15 C 5 5, -10 5, -10 15 C -10 25, 5 25, 15 15 C 25 5, 40 5, 40 15 C 40 25, 25 25, 15 15 Z" fill="none" stroke="url(#metaGrad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                
-                <!-- Teks Meta -->
                 <text x="15" y="45" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">Meta</text>
               </g>
 
-              <!-- Panah Sinkronisasi (Tengah) -->
-              <!-- Panah Atas -->
+              <!-- Sync Arrows (Center) -->
               <path d="M 120 80 C 120 40, 200 40, 240 80" fill="none" stroke="url(#arrowGrad1)" stroke-width="12" stroke-linecap="round"/>
               <path d="M 230 70 L 250 80 L 230 90 Z" fill="#ffffff" />
 
-              <!-- Panah Bawah -->
               <path d="M 280 80 C 280 120, 200 120, 160 80" fill="none" stroke="url(#arrowGrad2)" stroke-width="12" stroke-linecap="round"/>
               <path d="M 170 90 L 150 80 L 170 70 Z" fill="#3d7bff" />
 
-              <!-- Ikon Infinity Tengah -->
               <path d="M 180 80 C 170 70, 160 70, 160 80 C 160 90, 170 90, 180 80 C 190 70, 200 70, 200 80 C 200 90, 190 90, 180 80 Z" fill="#ffffff" opacity="0.9"/>
             </svg>
           </div>
-          <!-- AKHIR LOGO -->
+          <!-- END LOGO -->
 
-          <h2>Informasi</h2>
-          <p>Selamat datang di <strong>Meta Monitoring</strong>. Pantau aktivitas Lead, Event konversi, serta kualitas integrasi Meta dan CRM Anda di satu tempat.</p>
+          <h2>Overview</h2>
+          <p>Welcome to <strong>Meta Monitoring</strong>. Track lead activity, conversion events, and your Meta & CRM integration status all in one place.</p>
         </div>
 
-        <!-- Tombol Enter -->
+        <!-- Enter Button -->
         <a href="https://script.google.com/macros/s/AKfycbzdsdp2MnUFLWhBQIE9gb1-BJtzRTS5jcvt7TLTCVtWG1mR1ancbXw1mlAnSTVcStT4uw/exec" class="btn-enter">ENTER</a>
 
       </div>
